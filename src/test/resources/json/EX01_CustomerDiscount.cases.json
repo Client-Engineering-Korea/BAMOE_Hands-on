@@ -1,0 +1,75 @@
+{
+  "example": "EX01",
+  "description": "Pure DMN — CustomerDiscount",
+  "endpoint": "/EX01_CustomerDiscount",
+  "method": "POST",
+  "contentType": "application/json",
+  "cases": [
+    {
+      "id": "EX01-01",
+      "name": "Gold + 고액 주문 → 15%",
+      "request": {
+        "customerCategory": "Gold",
+        "orderAmount": 150000
+      },
+      "expected": {
+        "discountPercent": 15
+      }
+    },
+    {
+      "id": "EX01-02",
+      "name": "Gold + 일반 주문 → 10%",
+      "request": {
+        "customerCategory": "Gold",
+        "orderAmount": 50000
+      },
+      "expected": {
+        "discountPercent": 10
+      }
+    },
+    {
+      "id": "EX01-03",
+      "name": "Silver + 고액 주문 → 10%",
+      "request": {
+        "customerCategory": "Silver",
+        "orderAmount": 120000
+      },
+      "expected": {
+        "discountPercent": 10
+      }
+    },
+    {
+      "id": "EX01-04",
+      "name": "Silver + 일반 주문 → 5%",
+      "request": {
+        "customerCategory": "Silver",
+        "orderAmount": 30000
+      },
+      "expected": {
+        "discountPercent": 5
+      }
+    },
+    {
+      "id": "EX01-05",
+      "name": "Bronze + 고액 주문 → 5%",
+      "request": {
+        "customerCategory": "Bronze",
+        "orderAmount": 100000
+      },
+      "expected": {
+        "discountPercent": 5
+      }
+    },
+    {
+      "id": "EX01-06",
+      "name": "Bronze + 일반 주문 → 0%",
+      "request": {
+        "customerCategory": "Bronze",
+        "orderAmount": 20000
+      },
+      "expected": {
+        "discountPercent": 0
+      }
+    }
+  ]
+}

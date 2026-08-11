@@ -1,0 +1,20 @@
+{
+  "request" : {
+    "periodLevel" : null,
+    "svcMgmtNum" : "1000000001",
+    "extInquiryResult" : {
+      "promo" : 0,
+      "svcDtlClCd" : "CA"
+    },
+    "svcStChgCd" : "F2",
+    "authResult" : "GRANTED"
+  },
+  "authResultCheck" : "OK",
+  "conditionCheck" : "PROCEED",
+  "finalResult" : {
+    "businessResult" : "OK",
+    "authResult" : "GRANTED",
+    "errorMessage" : null,
+    "errorCode" : null
+  }
+}

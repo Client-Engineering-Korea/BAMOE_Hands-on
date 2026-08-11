@@ -1,2 +1,5 @@
 target
 *.swidtag
+
+.DS_Store
+.vscode

@@ -4,8 +4,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.acme</groupId> <!-- TODO: CHANGE THIS -->
-  <artifactId>your-bamoe-business-service</artifactId> <!-- TODO: CHANGE THIS -->
+  <!-- TODO: 적절한 이름으로 변경 필요 -->
+  <groupId>org.acme</groupId> 
+  <artifactId>bamoe-rule-service</artifactId>  
   <version>1.0.0-SNAPSHOT</version>
 
   <properties>
@@ -19,6 +20,36 @@
     <version.bamoe.plugins>9.5.1-ibm-0002</version.bamoe.plugins>
 
   </properties>
+
+  <!-- TODO: BAMOE 설정 (추가 필요 | indent 중요) -->
+  <repositories>
+    <repository>
+      <id>bamoe-maven-repo</id>
+      <name>BAMOE Maven Repository</name>
+      <url>https://maven-repository.apps.itz-6p3zmh.infra01-lb.syd05.techzone.ibm.com</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>bamoe-maven-repo</id>
+      <name>BAMOE Maven Repository</name>
+      <url>https://maven-repository.apps.itz-6p3zmh.infra01-lb.syd05.techzone.ibm.com</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>  
+
 
   <dependencyManagement>
     <dependencies>
@@ -50,6 +81,10 @@
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-decisions-spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-rules-spring-boot-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>

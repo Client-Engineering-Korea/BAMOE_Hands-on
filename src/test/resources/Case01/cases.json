@@ -1,0 +1,92 @@
+[
+  {
+    "case": "1-1",
+    "permission": "ORDAUX227",
+    "userId": "USER_FULL",
+    "request": {
+      "svcMgmtNum": "1000000001",
+      "svcStChgCd": "F1",
+      "extInquiryResult": {
+        "svcDtlClCd": "CA",
+        "promo": 0
+      },
+      "authResult": "GRANTED",      
+      "periodLevel": null
+    }
+  },
+  {
+    "case": "1-2",
+    "permission": "ORDAUX227",
+    "userId": "USER_FULL",
+    "request": {
+      "svcMgmtNum": "1000000001",
+      "svcStChgCd": "F2",      
+      "extInquiryResult": {
+        "svcDtlClCd": "CA",
+        "promo": 0
+      },
+      "authResult": "GRANTED",      
+      "periodLevel": null
+    }
+  },
+  {
+    "case": "1-3",
+    "permission": "ORDAUX227",
+    "userId": "USER_FULL",
+    "request": {
+      "svcMgmtNum": "1000000001",
+      "svcStChgCd": "FR",      
+      "extInquiryResult": {
+        "svcDtlClCd": "CA",
+        "promo": 0
+      },
+      "authResult": "GRANTED",
+      "periodLevel": null
+    }
+  },
+  {
+    "case": "1-4",
+    "permission": "ORDAUX227",
+    "userId": "USER_FULL",
+    "request": {
+      "svcMgmtNum": "1000000001",
+      "svcStChgCd": "XX",      
+      "extInquiryResult": {
+        "svcDtlClCd": "CA",
+        "promo": 0
+      },
+      "authResult": "SKIP",      
+      "periodLevel": null
+    }
+  },
+  {
+    "case": "1-5",
+    "permission": "ORDAUX227",
+    "userId": "USER_FULL",
+    "request": {
+      "svcMgmtNum": "1000000002",
+      "svcStChgCd": "F1",
+      "extInquiryResult": {
+        "svcDtlClCd": "AA",
+        "promo": 0
+      },
+      "authResult": "SKIP", 
+      "periodLevel": null
+    }
+  },
+  {
+    "case": "1-6",
+    "permission": "ORDAUX227",
+    "userId": "USER_NONE",
+    "request": {
+      "svcMgmtNum": "1000000001",
+      "svcStChgCd": "F1",
+      "extInquiryResult": {        
+        "svcDtlClCd": "CA",
+        "promo": 0
+      },
+      "authResult": "DENIED",
+      "periodLevel": null
+    }
+  }
+]

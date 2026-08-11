@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" xmlns:feel="https://www.omg.org/spec/DMN/20240513/FEEL/" expressionLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" namespace="https://kie.org/dmn/_CASE01_SVC_STATUS_CHANGE" id="_CASE01_DEF" name="Case01ServiceStatusChange">
+  <itemDefinition id="_idef_request" name="ServiceStatusChangeRequest" isCollection="false">
+    <itemComponent id="_idef_req_svcMgmtNum" name="svcMgmtNum">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef_req_svcStChgCd" name="svcStChgCd">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef_req_ext_inquiry_result" name="extInquiryResult" isCollection="false">
+      <itemComponent id="_idef_req_svcDtlClCd" name="svcDtlClCd">
+        <typeRef>string</typeRef>
+      </itemComponent>
+      <itemComponent id="_idef_req_promo" name="promo">
+        <typeRef>number</typeRef>
+      </itemComponent>
+    </itemComponent>
+    <itemComponent id="_idef_req_authResult" name="authResult">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef_req_periodLevel" name="periodLevel">
+      <typeRef>number</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="_idef_result" name="ServiceStatusChangeResult" isCollection="false">
+    <itemComponent id="_idef_res_authResult" name="authResult">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef_res_businessResult" name="businessResult">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef_res_errorCode" name="errorCode">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef_res_errorMessage" name="errorMessage">
+      <typeRef>string</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <decision id="_d_conditionCheck" name="conditionCheck">
+    <variable id="_v_conditionCheck" name="conditionCheck" typeRef="string" />
+    <informationRequirement id="_03464CD2-AE70-4F2A-9B89-45F92A6E52FD">
+      <requiredInput href="#_in_request" />
+    </informationRequirement>
+    <decisionTable id="_dt_conditionCheck" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" label="conditionCheck" typeRef="string">
+      <input id="_ci_svcDtlClCd">
+        <inputExpression id="_cie_svcDtlClCd" typeRef="string">
+          <text>request.extInquiryResult.svcDtlClCd</text>
+        </inputExpression>
+      </input>
+      <input id="_ci_svcStChgCd">
+        <inputExpression id="_cie_svcStChgCd" typeRef="string">
+          <text>request.svcStChgCd</text>
+        </inputExpression>
+      </input>
+      <output id="_co_conditionCheck" />
+      <rule id="_cc_rule1">
+        <description>조건 해당: 차량 eSIM 서비스 + 유효한 변경 코드</description>
+        <inputEntry id="_cc_r1_i1">
+          <text>&quot;CA&quot;</text>
+        </inputEntry>
+        <inputEntry id="_cc_r1_i2">
+          <text>&quot;F1&quot;,&quot;F2&quot;,&quot;FR&quot;</text>
+        </inputEntry>
+        <outputEntry id="_cc_r1_o1">
+          <text>&quot;PROCEED&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_cc_rule2">
+        <description>조건 미해당: 권한 체크 불필요 — 업무 처리 계속</description>
+        <inputEntry id="_cc_r2_i1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_cc_r2_i2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_cc_r2_o1">
+          <text>&quot;STOP&quot;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="_d_promoCheck" name="authResultCheck">
+    <variable id="_v_promoCheck" name="authResultCheck" typeRef="string" />
+    <informationRequirement id="_D3B375AA-BC2F-40C3-ABF7-2E7A0674AA90">
+      <requiredInput href="#_in_request" />
+    </informationRequirement>
+    <informationRequirement id="_E190BE5C-DB71-410B-8ED0-A461708B235B">
+      <requiredDecision href="#_d_conditionCheck" />
+    </informationRequirement>
+    <decisionTable id="_dt_promoCheck" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row" label="authResultCheck" typeRef="string">
+      <input id="_A5406961-8906-4CF8-AEAB-2AF2C502A76D">
+        <inputExpression id="_6DEC27E1-1E9E-41A1-98EE-5B96257354C2" typeRef="string">
+          <text>conditionCheck</text>
+        </inputExpression>
+      </input>
+      <input id="_2AE6B1DA-7A05-4852-8B09-2606C2D5A870">
+        <inputExpression id="_317F1288-CE54-48DE-8CAE-DC92736DAB34" typeRef="string">
+          <text>request.authResult</text>
+        </inputExpression>
+      </input>
+      <input id="_pi_svcStChgCd">
+        <inputExpression id="_pie_svcStChgCd" typeRef="string">
+          <text>request.svcStChgCd</text>
+        </inputExpression>
+      </input>
+      <input id="_pi_promo">
+        <inputExpression id="_pie_promo" typeRef="number">
+          <text>request.extInquiryResult.promo</text>
+        </inputExpression>
+      </input>
+      <output id="_po_promoCheck">
+        <outputValues id="_ov_promoCheck">
+          <text>&quot;PROMO_BLOCK&quot;,&quot;OK&quot;,&quot;authCheck_DENIED&quot;,&quot;authCheck_ERROR&quot;</text>
+        </outputValues>
+      </output>
+      <rule id="_pc_rule1">
+        <description>프로모션 기간 중 정지 시도 — 차단</description>
+        <inputEntry id="_AA83401D-6AA8-4D37-842A-24FC10AAAED2">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_9A5C8357-4F93-4D53-902F-4E2445826B7A">
+          <text>&quot;ERROR&quot;</text>
+        </inputEntry>
+        <inputEntry id="_pc_r1_i2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_pc_r1_i3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_pc_r1_o1">
+          <text>&quot;authCheck_ERROR&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_D1542EA3-31AE-4BFE-88D2-B811E3FE59AD">
+        <inputEntry id="_1D4F560B-FF73-455D-9E12-9A7DA728CEB4">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_373168B0-4092-46C6-87DC-7199D58AC47B">
+          <text>&quot;DENIED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_D6B35C1F-250D-4B50-8DFD-CF4CF78EEC84">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_97C477E8-B019-401E-A5D1-EC0728A940DA">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_563821D3-D95C-479A-AC22-1B73350C1CE7">
+          <text>&quot;authCheck_DENIED&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_22707A00-58B2-405E-BBF2-9F847250C8BA">
+        <inputEntry id="_0A111DC8-F988-450C-ADB2-0D35B91DB647">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_1BEA2F8C-3DE9-4A2A-86B4-8EABD83F3DA6">
+          <text>&quot;GRANTED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_937FC4AA-4799-4E44-8AE1-1E8B2669610E">
+          <text>&quot;F1&quot;</text>
+        </inputEntry>
+        <inputEntry id="_914F96D1-AB02-41C9-9D73-C0E8F7D74B15">
+          <text>&gt; 0</text>
+        </inputEntry>
+        <outputEntry id="_BAAE6D1C-47E6-46DE-8720-B55C2B159F5D">
+          <text>&quot;PROMO_BLOCK&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_pc_rule2">
+        <description>정상 정지 — 프로모션 없음</description>
+        <inputEntry id="_8153A8D9-9CDE-42B2-880B-4D6DEB59EE8A">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_DC2F14C8-C12A-4BC7-A9F8-7269EFFE7197">
+          <text>&quot;GRANTED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_pc_r2_i2">
+          <text>&quot;F1&quot;</text>
+        </inputEntry>
+        <inputEntry id="_pc_r2_i3">
+          <text>&lt;= 0</text>
+        </inputEntry>
+        <outputEntry id="_pc_r2_o1">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_pc_rule3">
+        <description>F2/FR 코드 — 프로모션 체크 불필요</description>
+        <inputEntry id="_3BAD5B52-5E35-46ED-9E6D-7125824E6015">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_22C57532-0710-4339-961B-029AE078481E">
+          <text>&quot;GRANTED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_pc_r3_i2">
+          <text>&quot;F2&quot;,&quot;FR&quot;</text>
+        </inputEntry>
+        <inputEntry id="_pc_r3_i3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_pc_r3_o1">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_pc_rule4">
+        <description>조건 미해당 또는 권한 없음 — promoCheck 불필요</description>
+        <inputEntry id="_87AD433D-3A76-4EB5-9E90-B18E3DCFA1BB">
+          <text>&quot;STOP&quot;</text>
+        </inputEntry>
+        <inputEntry id="_C1BF550A-6FD2-4DC6-A792-3C1053458DFF">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_pc_r4_i2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_pc_r4_i3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_pc_r4_o1">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="_d_finalResult" name="finalResult">
+    <variable id="_v_finalResult" name="finalResult" typeRef="ServiceStatusChangeResult" />
+    <informationRequirement id="_ir_fr_promo">
+      <requiredDecision href="#_d_promoCheck" />
+    </informationRequirement>
+    <informationRequirement id="_1826AF17-F3BF-4BAC-84E4-EAF148DC62B8">
+      <requiredDecision href="#_d_conditionCheck" />
+    </informationRequirement>
+    <decisionTable id="_dt_finalResult" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" label="finalResult" typeRef="ServiceStatusChangeResult">
+      <input id="_7546D41F-1537-486C-8EAF-1CC21C4FC8BF">
+        <inputExpression id="_6C2B4FA4-504A-49CE-B9FA-A476E4F7DC45" typeRef="string">
+          <text>conditionCheck</text>
+        </inputExpression>
+      </input>
+      <input id="_fi_promoCheck">
+        <inputExpression id="_fie_promoCheck" typeRef="string">
+          <text>authResultCheck</text>
+        </inputExpression>
+      </input>
+      <output id="_fo_authResult" name="authResult" typeRef="string" />
+      <output id="_fo_businessResult" name="businessResult" typeRef="string" />
+      <output id="_fo_errorCode" name="errorCode" typeRef="string" />
+      <output id="_fo_errorMessage" name="errorMessage" typeRef="string" />
+      <rule id="_fr_rule1">
+        <description>F1 + promo &gt; 0 — 프로모션 기간 중 정지 불가</description>
+        <inputEntry id="_FE797213-3276-45D4-BCF6-1E9971416CC2">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr_r1_i2">
+          <text>&quot;PROMO_BLOCK&quot;</text>
+        </inputEntry>
+        <outputEntry id="_fr_r1_o1">
+          <text>&quot;ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r1_o2">
+          <text>&quot;ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r1_o3">
+          <text>&quot;E_PROMO_BLOCK&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r1_o4">
+          <text>&quot;프로모션 기간 중 정지 불가&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_fr_rule3">
+        <description>케이스 1-6 — 권한 없음</description>
+        <inputEntry id="_90B89FBA-FC40-4377-8C7D-338FEE1C63B2">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr_r3_i2">
+          <text>&quot;authCheck_DENIED&quot;</text>
+        </inputEntry>
+        <outputEntry id="_fr_r3_o1">
+          <text>&quot;DENIED&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r3_o2">
+          <text>&quot;ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r3_o3">
+          <text>&quot;E_AUTH_DENIED&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r3_o4">
+          <text>&quot;차량 eSIM 처리 권한 없음&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_fr_rule4">
+        <description>권한 체크 중 오류 발생</description>
+        <inputEntry id="_C4F882F9-D689-4A1D-9E08-242D9036D518">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr_r4_i2">
+          <text>&quot;authCheck_ERROR&quot;</text>
+        </inputEntry>
+        <outputEntry id="_fr_r4_o1">
+          <text>&quot;AUTH_ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r4_o2">
+          <text>&quot;ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r4_o3">
+          <text>&quot;E_AUTH_ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r4_o4">
+          <text>&quot;권한 체크 중 오류&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_D2F759F0-9BE1-4EE3-A84A-904BE1D936C4">
+        <inputEntry id="_7D4C1A31-A2E4-4941-9D93-BDA578387E2A">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_ABAA4C47-3BB5-4E51-9C15-1494BE23E3DA">
+          <text>&quot;OK&quot;</text>
+        </inputEntry>
+        <outputEntry id="_6D4467D8-1B5B-4606-93F9-D969E0346B8F">
+          <text>&quot;GRANTED&quot;</text>
+        </outputEntry>
+        <outputEntry id="_66CE6022-D56D-421A-909E-04F79B3886E8">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+        <outputEntry id="_25065BEF-6809-4218-967A-317E8122D6EA">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="_679A1DAD-86F2-47E5-A853-A50B8F89C08E">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="_fr_rule5">
+        <description>케이스 1-4, 1-5 — 조건 미해당, 업무 처리 계속</description>
+        <inputEntry id="_808F1619-9B8C-48B2-8E27-3420672E3C34">
+          <text>&quot;STOP&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr_r5_i2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_fr_r5_o1">
+          <text>&quot;STOP&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r5_o2">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr_r5_o3">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="_fr_r5_o4">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="_in_request" name="request">
+    <variable id="_var_request" name="request" typeRef="ServiceStatusChangeRequest" />
+  </inputData>
+  <decisionService id="_ds_case01" name="Case01ServiceStatusChangeService">
+    <variable id="_var_ds_case01" name="Case01ServiceStatusChangeService" typeRef="ServiceStatusChangeResult" />
+    <outputDecision href="#_d_finalResult" />
+    <encapsulatedDecision href="#_d_promoCheck" />
+    <encapsulatedDecision href="#_d_conditionCheck" />
+    <inputData href="#_in_request" />
+  </decisionService>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_diagram_case01" name="Case01ServiceStatusChange" useAlternativeInputDataShape="false">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_dt_conditionCheck">
+            <kie:width>50</kie:width>
+            <kie:width>283</kie:width>
+            <kie:width>354</kie:width>
+            <kie:width>150</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_dt_promoCheck">
+            <kie:width>50</kie:width>
+            <kie:width>128</kie:width>
+            <kie:width>149</kie:width>
+            <kie:width>286</kie:width>
+            <kie:width>221</kie:width>
+            <kie:width>191</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_dt_finalResult">
+            <kie:width>50</kie:width>
+            <kie:width>154</kie:width>
+            <kie:width>180</kie:width>
+            <kie:width>150</kie:width>
+            <kie:width>150</kie:width>
+            <kie:width>150</kie:width>
+            <kie:width>220</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="_shape_ds_case01" dmnElementRef="_ds_case01" isCollapsed="false">
+        <dc:Bounds x="20" y="0" width="870" height="340" />
+        <dmndi:DMNDecisionServiceDividerLine id="_56C0F122-B115-42C1-BBFA-AE65260FF09A">
+          <di:waypoint x="10" y="200" />
+          <di:waypoint x="350" y="200" />
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape_finalResult" dmnElementRef="_d_finalResult">
+        <dc:Bounds x="360" y="80" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape_conditionCheck" dmnElementRef="_d_conditionCheck">
+        <dc:Bounds x="200" y="240" width="180" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape_promoCheck" dmnElementRef="_d_promoCheck">
+        <dc:Bounds x="520" y="240" width="180" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape_request" dmnElementRef="_in_request">
+        <dc:Bounds x="340" y="440" width="200" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_edge_pc_fr" dmnElementRef="_ir_fr_promo" sourceElement="_shape_promoCheck" targetElement="_shape_finalResult">
+        <di:waypoint x="610" y="240" />
+        <di:waypoint x="550" y="150" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_8CA8A029-5073-4C34-A149-646498D902A0" dmnElementRef="_D3B375AA-BC2F-40C3-ABF7-2E7A0674AA90" sourceElement="_shape_request" targetElement="_shape_promoCheck">
+        <di:waypoint x="440" y="470" />
+        <di:waypoint x="610" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_81368F45-9256-4AC9-B66E-D11F1853D8E5" dmnElementRef="_03464CD2-AE70-4F2A-9B89-45F92A6E52FD" sourceElement="_shape_request" targetElement="_shape_conditionCheck">
+        <di:waypoint x="440" y="470" />
+        <di:waypoint x="290" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_295F8ECE-112F-4B55-A217-C155BEEE7A7E" dmnElementRef="_E190BE5C-DB71-410B-8ED0-A461708B235B" sourceElement="_shape_conditionCheck" targetElement="_shape_promoCheck">
+        <di:waypoint x="290" y="270" />
+        <di:waypoint x="520" y="270" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_29114899-3446-4A6A-938B-49B70530011C" dmnElementRef="_1826AF17-F3BF-4BAC-84E4-EAF148DC62B8" sourceElement="_shape_conditionCheck" targetElement="_shape_finalResult">
+        <di:waypoint x="290" y="270" />
+        <di:waypoint x="450" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

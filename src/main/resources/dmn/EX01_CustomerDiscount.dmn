@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/"
+                 xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+                 xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+                 xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+                 xmlns:kie="http://www.drools.org/kie/dmn/1.2"
+                 xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/"
+                 xmlns="https://kie.acme.org/dmn/EX01_CustomerDiscount"
+                 id="_customer_discount_defs"
+                 name="EX01_CustomerDiscount"
+                 namespace="https://kie.acme.org/dmn/EX01_CustomerDiscount"
+                 expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/"
+                 typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/">
+  <dmn:extensionElements/>
+
+  <!-- EX01: Pure DMN (FEEL types only, no Java DTO) -->
+  <!-- Input: customerCategory (Bronze/Silver/Gold), orderAmount -->
+  <!-- Output: discountPercent -->
+
+  <dmn:itemDefinition id="_tCategory" name="tCategory" isCollection="false">
+    <dmn:typeRef>string</dmn:typeRef>
+    <dmn:allowedValues kie:constraintType="enumeration" id="_cat_enum">
+      <dmn:text>"Bronze", "Silver", "Gold"</dmn:text>
+    </dmn:allowedValues>
+  </dmn:itemDefinition>
+
+  <dmn:inputData id="_in_category" name="customerCategory">
+    <dmn:variable id="_var_category" name="customerCategory" typeRef="tCategory"/>
+  </dmn:inputData>
+
+  <dmn:inputData id="_in_amount" name="orderAmount">
+    <dmn:variable id="_var_amount" name="orderAmount" typeRef="number"/>
+  </dmn:inputData>
+
+  <dmn:decision id="_dec_discount" name="discountPercent">
+    <dmn:variable id="_var_discount" name="discountPercent" typeRef="number"/>
+    <dmn:informationRequirement id="_req1">
+      <dmn:requiredInput href="#_in_category"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_req2">
+      <dmn:requiredInput href="#_in_amount"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_dt_discount" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_dt_in1">
+        <dmn:inputExpression id="_dt_in1_expr" typeRef="string">
+          <dmn:text>customerCategory</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_dt_in2">
+        <dmn:inputExpression id="_dt_in2_expr" typeRef="number">
+          <dmn:text>orderAmount</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_dt_out1" name="discountPercent" typeRef="number"/>
+
+      <!-- Gold -->
+      <dmn:rule id="_r1">
+        <dmn:inputEntry id="_r1i1"><dmn:text>"Gold"</dmn:text></dmn:inputEntry>
+        <dmn:inputEntry id="_r1i2"><dmn:text>&gt;= 100000</dmn:text></dmn:inputEntry>
+        <dmn:outputEntry id="_r1o1"><dmn:text>15</dmn:text></dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_r2">
+        <dmn:inputEntry id="_r2i1"><dmn:text>"Gold"</dmn:text></dmn:inputEntry>
+        <dmn:inputEntry id="_r2i2"><dmn:text>-</dmn:text></dmn:inputEntry>
+        <dmn:outputEntry id="_r2o1"><dmn:text>10</dmn:text></dmn:outputEntry>
+      </dmn:rule>
+
+      <!-- Silver -->
+      <dmn:rule id="_r3">
+        <dmn:inputEntry id="_r3i1"><dmn:text>"Silver"</dmn:text></dmn:inputEntry>
+        <dmn:inputEntry id="_r3i2"><dmn:text>&gt;= 100000</dmn:text></dmn:inputEntry>
+        <dmn:outputEntry id="_r3o1"><dmn:text>10</dmn:text></dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_r4">
+        <dmn:inputEntry id="_r4i1"><dmn:text>"Silver"</dmn:text></dmn:inputEntry>
+        <dmn:inputEntry id="_r4i2"><dmn:text>-</dmn:text></dmn:inputEntry>
+        <dmn:outputEntry id="_r4o1"><dmn:text>5</dmn:text></dmn:outputEntry>
+      </dmn:rule>
+
+      <!-- Bronze / default -->
+      <dmn:rule id="_r5">
+        <dmn:inputEntry id="_r5i1"><dmn:text>"Bronze"</dmn:text></dmn:inputEntry>
+        <dmn:inputEntry id="_r5i2"><dmn:text>&gt;= 100000</dmn:text></dmn:inputEntry>
+        <dmn:outputEntry id="_r5o1"><dmn:text>5</dmn:text></dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="_r6">
+        <dmn:inputEntry id="_r6i1"><dmn:text>-</dmn:text></dmn:inputEntry>
+        <dmn:inputEntry id="_r6i2"><dmn:text>-</dmn:text></dmn:inputEntry>
+        <dmn:outputEntry id="_r6o1"><dmn:text>0</dmn:text></dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_diagram" name="EX01_CustomerDiscount">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_dt_discount">
+            <kie:width>50</kie:width>
+            <kie:width>160</kie:width>
+            <kie:width>160</kie:width>
+            <kie:width>140</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="_shape_cat" dmnElementRef="_in_category">
+        <dc:Bounds x="150" y="200" width="160" height="50"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape_amt" dmnElementRef="_in_amount">
+        <dc:Bounds x="360" y="200" width="160" height="50"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape_dec" dmnElementRef="_dec_discount">
+        <dc:Bounds x="255" y="80" width="160" height="50"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_edge1" dmnElementRef="_req1">
+        <di:waypoint x="230" y="200"/>
+        <di:waypoint x="300" y="130"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_edge2" dmnElementRef="_req2">
+        <di:waypoint x="440" y="200"/>
+        <di:waypoint x="370" y="130"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

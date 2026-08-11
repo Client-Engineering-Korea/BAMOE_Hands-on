@@ -24,7 +24,27 @@ The Swagger UI page (http://0.0.0.0:8080/swagger-ui/index.html) shows all the ge
 
 ```sh
 mvn clean package
-java -jar ./target/your-business-service-name.jar
+java -jar ./target/bamoe-rule-service.jar
+```
+
+### Hands-on session
+
+See [docs/HANDS-ON-GUIDE.md](docs/HANDS-ON-GUIDE.md).  
+Instructor deploy cheat sheet: [docs/INSTRUCTOR-DEPLOY-S2I.md](docs/INSTRUCTOR-DEPLOY-S2I.md).
+
+**Goal:** GitHub에서 브랜치·PR로 Rule을 협업하고, 강사(admin)가 승인된 `main`을 OpenShift S2I로 배포하는 바탕을 경험합니다.
+
+| Who | What |
+|-----|------|
+| Participants | clone → feature branch → DMN/DRL → `mvn test` → Pull Request |
+| Instructor | review/merge PR → `./scripts/deploy-s2i.sh` → share Route URL |
+
+```sh
+# Instructor only (after PR merge)
+git checkout main && git pull
+chmod +x scripts/deploy-s2i.sh
+oc project bamoe-demo
+./scripts/deploy-s2i.sh
 ```
 
 ### Configuring CORS
