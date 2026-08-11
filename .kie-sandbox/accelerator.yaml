@@ -1,0 +1,9 @@
+# This file was automatically created by BAMOE Developer Tools for VS Code. Please don't modify it.
+name: Decisions (Spring Boot + Maven)
+iconUrl: ''
+gitRepositoryUrl: https://github.com/IBM/bamoe-canvas-quarkus-accelerator
+gitRepositoryGitRef: 9.5.1-ibm-0002-decisions-spring-boot-maven
+dmnDestinationFolder: src/main/resources/dmn
+bpmnDestinationFolder: src/main/resources/bpmn
+otherFilesDestinationFolder: src/main/resources/others
+appliedAt: '2026-08-11T07:58:53.715Z'
