@@ -14,7 +14,7 @@
   "finalResult" : {
     "businessResult" : "ERROR",
     "authResult" : "DENIED",
-    "errorMessage" : "차량 eSIM 처리 권한 없음",
+    "errorMessage" : "NEW_차량 eSIM 처리 권한 없음",
     "errorCode" : "E_AUTH_DENIED"
   }
 }
