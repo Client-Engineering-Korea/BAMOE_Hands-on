@@ -283,7 +283,7 @@
           <text>&quot;E_AUTH_DENIED&quot;</text>
         </outputEntry>
         <outputEntry id="_fr_r3_o4">
-          <text>&quot;차량 eSIM 처리 권한 없음&quot;</text>
+          <text>&quot;NEW_차량 eSIM 처리 권한 없음&quot;</text>
         </outputEntry>
       </rule>
       <rule id="_fr_rule4">
