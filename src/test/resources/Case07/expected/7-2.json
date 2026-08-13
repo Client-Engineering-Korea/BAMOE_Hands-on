@@ -1,0 +1,24 @@
+{
+  "request" : {
+    "checkType" : "SINGLE",
+    "input" : {
+      "svc_chg_rsn_cd" : "01",
+      "svc_st_chg_cd" : "F1"
+    },
+    "svcMgmtNum" : 1000000020,
+    "extInquiryResult" : {
+      "grp_co_svc_cnt" : 2
+    },
+    "authResult" : "DENIED",
+    "userId" : "USER_NONE",
+    "authId" : "ORDOP1026"
+  },
+  "authResultCheck" : "authCheck_DENIED",
+  "conditionCheck" : "PROCEED",
+  "finalResult" : {
+    "businessResult" : "ERROR",
+    "authResult" : "DENIED",
+    "errorMessage" : "그룹사 회선 정지 불가",
+    "errorCode" : "E_GRP_SVC_DENIED"
+  }
+}

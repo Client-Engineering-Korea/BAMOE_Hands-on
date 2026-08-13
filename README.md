@@ -23,6 +23,7 @@
 |------|-----|------|
 | **EX01** | `EX01_CustomerDiscount` | Pure DMN — 고객 등급·주문 금액 → 할인율 |
 | **Case01** | `Case01ServiceStatusChange` | Java DTO + DMN — 서비스 상태 변경 권한 체크 |
+| **Case07** | `Case07GroupServiceSuspend` | Java DTO + DMN — 그룹사 회선 정지 권한 체크 |
 
 상세 가이드:
 
@@ -42,16 +43,19 @@
 │   │   ├── BamoeSpringBootApplication.java
 │   │   ├── BamoeCorsConfig.java
 │   │   ├── case01/model/          # Case01 요청·응답 DTO
+│   │   ├── case07/model/          # Case07 요청·응답 DTO
 │   │   └── common/model/          # 공통 모델 (ExtInquiryResult 등)
 │   └── resources/
 │       ├── application.properties
 │       └── dmn/
 │           ├── EX01_CustomerDiscount.dmn
-│           └── Case01ServiceStatusChange.dmn
+│           ├── Case01ServiceStatusChange.dmn
+│           └── Case07GroupServiceSuspend.dmn
 └── src/test/
     ├── java/org/acme/dmn/         # REST API 시나리오 테스트
     └── resources/
         ├── Case01/                # Case01 입·출력 fixture
+        ├── Case07/                # Case07 입·출력 fixture
         ├── Case01_test.scesim
         └── json/EX01_CustomerDiscount.cases.json
 ```
@@ -111,6 +115,9 @@ Swagger에서 전체 엔드포인트를 확인할 수 있습니다. 주요 경�
 | `GET` | `/EX01_CustomerDiscount` | DMN 모델 XML |
 | `POST` | `/Case01ServiceStatusChange` | 서비스 상태 변경 권한 체크 |
 | `GET` | `/Case01ServiceStatusChange` | DMN 모델 XML |
+| `POST` | `/Case07GroupServiceSuspend` | 그룹사 회선 정지 권한 체크 |
+| `POST` | `/Case07GroupServiceSuspend/Case07GroupServiceSuspendService` | 위와 동일하나 `finalResult`만 반환 |
+| `GET` | `/Case07GroupServiceSuspend` | DMN 모델 XML |
 
 EX01 샘플 요청:
 
