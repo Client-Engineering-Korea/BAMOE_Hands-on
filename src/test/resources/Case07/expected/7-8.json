@@ -1,0 +1,24 @@
+{
+  "request" : {
+    "checkType" : "SINGLE",
+    "input" : {
+      "svc_chg_rsn_cd" : "01",
+      "svc_st_chg_cd" : "F1"
+    },
+    "svcMgmtNum" : 1000000020,
+    "extInquiryResult" : {
+      "grp_co_svc_cnt" : 2
+    },
+    "authResult" : "ERROR",
+    "userId" : "USER_FULL",
+    "authId" : "ORDOP1026"
+  },
+  "authResultCheck" : "authCheck_ERROR",
+  "conditionCheck" : "PROCEED",
+  "finalResult" : {
+    "businessResult" : "ERROR",
+    "authResult" : "AUTH_ERROR",
+    "errorMessage" : "권한 체크 중 오류",
+    "errorCode" : "E_AUTH_ERROR"
+  }
+}

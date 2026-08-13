@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20240513/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20230324/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" xmlns:feel="https://www.omg.org/spec/DMN/20240513/FEEL/" expressionLanguage="https://www.omg.org/spec/DMN/20240513/FEEL/" namespace="https://kie.org/dmn/_CASE07_GRP_SVC_SUSPEND" id="_CASE07_DEF" name="Case07GroupServiceSuspend">
+  <itemDefinition id="_idef07_request" name="GroupServiceSuspendRequest" isCollection="false">
+    <itemComponent id="_idef07_req_authId" name="authId">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_req_checkType" name="checkType">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_req_userId" name="userId">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_req_svcMgmtNum" name="svcMgmtNum">
+      <typeRef>number</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_req_input" name="input" isCollection="false">
+      <itemComponent id="_idef07_req_svc_st_chg_cd" name="svc_st_chg_cd">
+        <typeRef>string</typeRef>
+      </itemComponent>
+      <itemComponent id="_idef07_req_svc_chg_rsn_cd" name="svc_chg_rsn_cd">
+        <typeRef>string</typeRef>
+      </itemComponent>
+    </itemComponent>
+    <itemComponent id="_idef07_req_ext_inquiry_result" name="extInquiryResult" isCollection="false">
+      <itemComponent id="_idef07_req_grp_co_svc_cnt" name="grp_co_svc_cnt">
+        <typeRef>number</typeRef>
+      </itemComponent>
+    </itemComponent>
+    <itemComponent id="_idef07_req_authResult" name="authResult">
+      <typeRef>string</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <itemDefinition id="_idef07_result" name="GroupServiceSuspendResult" isCollection="false">
+    <itemComponent id="_idef07_res_authResult" name="authResult">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_res_businessResult" name="businessResult">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_res_errorCode" name="errorCode">
+      <typeRef>string</typeRef>
+    </itemComponent>
+    <itemComponent id="_idef07_res_errorMessage" name="errorMessage">
+      <typeRef>string</typeRef>
+    </itemComponent>
+  </itemDefinition>
+  <decision id="_d07_conditionCheck" name="conditionCheck">
+    <variable id="_v07_conditionCheck" name="conditionCheck" typeRef="string" />
+    <informationRequirement id="_ir07_cc_request">
+      <requiredInput href="#_in07_request" />
+    </informationRequirement>
+    <decisionTable id="_dt07_conditionCheck" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" label="conditionCheck" typeRef="string">
+      <input id="_ci07_svc_st_chg_cd">
+        <inputExpression id="_cie07_svc_st_chg_cd" typeRef="string">
+          <text>request.input.svc_st_chg_cd</text>
+        </inputExpression>
+      </input>
+      <input id="_ci07_svc_chg_rsn_cd">
+        <inputExpression id="_cie07_svc_chg_rsn_cd" typeRef="string">
+          <text>request.input.svc_chg_rsn_cd</text>
+        </inputExpression>
+      </input>
+      <input id="_ci07_grp_co_svc_cnt">
+        <inputExpression id="_cie07_grp_co_svc_cnt" typeRef="number">
+          <text>request.extInquiryResult.grp_co_svc_cnt</text>
+        </inputExpression>
+      </input>
+      <output id="_co07_conditionCheck" />
+      <rule id="_cc07_rule1">
+        <description>정지(F1) + 대상 사유코드 + 그룹사 회선 보유 — 권한 체크 대상</description>
+        <inputEntry id="_cc07_r1_i1">
+          <text>&quot;F1&quot;</text>
+        </inputEntry>
+        <inputEntry id="_cc07_r1_i2">
+          <text>&quot;01&quot;,&quot;31&quot;,&quot;16&quot;,&quot;21&quot;,&quot;22&quot;,&quot;23&quot;,&quot;24&quot;,&quot;27&quot;,&quot;32&quot;</text>
+        </inputEntry>
+        <inputEntry id="_cc07_r1_i3">
+          <text>&gt; 0</text>
+        </inputEntry>
+        <outputEntry id="_cc07_r1_o1">
+          <text>&quot;PROCEED&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_cc07_rule2">
+        <description>조건 미해당(그룹사 회선 0건 포함, 조회값 null 시에도 여기로) — 권한 체크 불필요</description>
+        <inputEntry id="_cc07_r2_i1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_cc07_r2_i2">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_cc07_r2_i3">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_cc07_r2_o1">
+          <text>&quot;STOP&quot;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="_d07_authResultCheck" name="authResultCheck">
+    <variable id="_v07_authResultCheck" name="authResultCheck" typeRef="string" />
+    <informationRequirement id="_ir07_ac_request">
+      <requiredInput href="#_in07_request" />
+    </informationRequirement>
+    <informationRequirement id="_ir07_ac_conditionCheck">
+      <requiredDecision href="#_d07_conditionCheck" />
+    </informationRequirement>
+    <decisionTable id="_dt07_authResultCheck" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" label="authResultCheck" typeRef="string">
+      <input id="_ai07_conditionCheck">
+        <inputExpression id="_aie07_conditionCheck" typeRef="string">
+          <text>conditionCheck</text>
+        </inputExpression>
+      </input>
+      <input id="_ai07_authResult">
+        <inputExpression id="_aie07_authResult" typeRef="string">
+          <text>request.authResult</text>
+        </inputExpression>
+      </input>
+      <output id="_ao07_authResultCheck">
+        <outputValues id="_ov07_authResultCheck">
+          <text>&quot;OK&quot;,&quot;authCheck_DENIED&quot;,&quot;authCheck_ERROR&quot;</text>
+        </outputValues>
+      </output>
+      <rule id="_ac07_rule1">
+        <description>권한 있음</description>
+        <inputEntry id="_ac07_r1_i1">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_ac07_r1_i2">
+          <text>&quot;GRANTED&quot;</text>
+        </inputEntry>
+        <outputEntry id="_ac07_r1_o1">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_ac07_rule2">
+        <description>권한 없음</description>
+        <inputEntry id="_ac07_r2_i1">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_ac07_r2_i2">
+          <text>&quot;DENIED&quot;</text>
+        </inputEntry>
+        <outputEntry id="_ac07_r2_o1">
+          <text>&quot;authCheck_DENIED&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_ac07_rule3">
+        <description>권한 API 장애</description>
+        <inputEntry id="_ac07_r3_i1">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_ac07_r3_i2">
+          <text>&quot;ERROR&quot;</text>
+        </inputEntry>
+        <outputEntry id="_ac07_r3_o1">
+          <text>&quot;authCheck_ERROR&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_ac07_rule4">
+        <description>조건 미해당 — 권한 결과와 무관하게 통과</description>
+        <inputEntry id="_ac07_r4_i1">
+          <text>&quot;STOP&quot;</text>
+        </inputEntry>
+        <inputEntry id="_ac07_r4_i2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_ac07_r4_o1">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_ac07_rule5">
+        <description>방어 규칙 — 권한 결과 누락·미정의 값은 장애로 간주</description>
+        <inputEntry id="_ac07_r5_i1">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="_ac07_r5_i2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_ac07_r5_o1">
+          <text>&quot;authCheck_ERROR&quot;</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="_d07_finalResult" name="finalResult">
+    <variable id="_v07_finalResult" name="finalResult" typeRef="GroupServiceSuspendResult" />
+    <informationRequirement id="_ir07_fr_conditionCheck">
+      <requiredDecision href="#_d07_conditionCheck" />
+    </informationRequirement>
+    <informationRequirement id="_ir07_fr_authResultCheck">
+      <requiredDecision href="#_d07_authResultCheck" />
+    </informationRequirement>
+    <decisionTable id="_dt07_finalResult" hitPolicy="FIRST" preferredOrientation="Rule-as-Row" label="finalResult" typeRef="GroupServiceSuspendResult">
+      <input id="_fi07_conditionCheck">
+        <inputExpression id="_fie07_conditionCheck" typeRef="string">
+          <text>conditionCheck</text>
+        </inputExpression>
+      </input>
+      <input id="_fi07_authResultCheck">
+        <inputExpression id="_fie07_authResultCheck" typeRef="string">
+          <text>authResultCheck</text>
+        </inputExpression>
+      </input>
+      <output id="_fo07_authResult" name="authResult" typeRef="string" />
+      <output id="_fo07_businessResult" name="businessResult" typeRef="string" />
+      <output id="_fo07_errorCode" name="errorCode" typeRef="string" />
+      <output id="_fo07_errorMessage" name="errorMessage" typeRef="string" />
+      <rule id="_fr07_rule1">
+        <description>케이스 7-2 — 그룹사 회선 정지 권한 없음</description>
+        <inputEntry id="_fr07_r1_i1">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr07_r1_i2">
+          <text>&quot;authCheck_DENIED&quot;</text>
+        </inputEntry>
+        <outputEntry id="_fr07_r1_o1">
+          <text>&quot;DENIED&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r1_o2">
+          <text>&quot;ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r1_o3">
+          <text>&quot;E_GRP_SVC_DENIED&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r1_o4">
+          <text>&quot;그룹사 회선 정지 불가&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_fr07_rule2">
+        <description>케이스 7-8 — 권한 체크 중 오류</description>
+        <inputEntry id="_fr07_r2_i1">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr07_r2_i2">
+          <text>&quot;authCheck_ERROR&quot;</text>
+        </inputEntry>
+        <outputEntry id="_fr07_r2_o1">
+          <text>&quot;AUTH_ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r2_o2">
+          <text>&quot;ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r2_o3">
+          <text>&quot;E_AUTH_ERROR&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r2_o4">
+          <text>&quot;권한 체크 중 오류&quot;</text>
+        </outputEntry>
+      </rule>
+      <rule id="_fr07_rule3">
+        <description>케이스 7-1, 7-4 — 권한 확인 완료, 정지 가능</description>
+        <inputEntry id="_fr07_r3_i1">
+          <text>&quot;PROCEED&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr07_r3_i2">
+          <text>&quot;OK&quot;</text>
+        </inputEntry>
+        <outputEntry id="_fr07_r3_o1">
+          <text>&quot;GRANTED&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r3_o2">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r3_o3">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r3_o4">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+      <rule id="_fr07_rule4">
+        <description>케이스 7-3, 7-5, 7-6, 7-7 — 조건 미해당, 권한 체크 생략</description>
+        <inputEntry id="_fr07_r4_i1">
+          <text>&quot;STOP&quot;</text>
+        </inputEntry>
+        <inputEntry id="_fr07_r4_i2">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="_fr07_r4_o1">
+          <text>&quot;SKIP&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r4_o2">
+          <text>&quot;OK&quot;</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r4_o3">
+          <text>null</text>
+        </outputEntry>
+        <outputEntry id="_fr07_r4_o4">
+          <text>null</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="_in07_request" name="request">
+    <variable id="_var07_request" name="request" typeRef="GroupServiceSuspendRequest" />
+  </inputData>
+  <decisionService id="_ds07_case07" name="Case07GroupServiceSuspendService">
+    <variable id="_var07_ds_case07" name="Case07GroupServiceSuspendService" typeRef="GroupServiceSuspendResult" />
+    <outputDecision href="#_d07_finalResult" />
+    <encapsulatedDecision href="#_d07_authResultCheck" />
+    <encapsulatedDecision href="#_d07_conditionCheck" />
+    <inputData href="#_in07_request" />
+  </decisionService>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_diagram07_case07" name="Case07GroupServiceSuspend" useAlternativeInputDataShape="false">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_dt07_conditionCheck">
+            <kie:width>50</kie:width>
+            <kie:width>220</kie:width>
+            <kie:width>330</kie:width>
+            <kie:width>270</kie:width>
+            <kie:width>150</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_dt07_authResultCheck">
+            <kie:width>50</kie:width>
+            <kie:width>128</kie:width>
+            <kie:width>160</kie:width>
+            <kie:width>191</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_dt07_finalResult">
+            <kie:width>50</kie:width>
+            <kie:width>154</kie:width>
+            <kie:width>180</kie:width>
+            <kie:width>150</kie:width>
+            <kie:width>150</kie:width>
+            <kie:width>190</kie:width>
+            <kie:width>220</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="_shape07_ds_case07" dmnElementRef="_ds07_case07" isCollapsed="false">
+        <dc:Bounds x="20" y="0" width="870" height="340" />
+        <dmndi:DMNDecisionServiceDividerLine id="_divider07_case07">
+          <di:waypoint x="20" y="200" />
+          <di:waypoint x="890" y="200" />
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape07_finalResult" dmnElementRef="_d07_finalResult">
+        <dc:Bounds x="360" y="80" width="180" height="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape07_conditionCheck" dmnElementRef="_d07_conditionCheck">
+        <dc:Bounds x="200" y="240" width="180" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape07_authResultCheck" dmnElementRef="_d07_authResultCheck">
+        <dc:Bounds x="520" y="240" width="180" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="_shape07_request" dmnElementRef="_in07_request">
+        <dc:Bounds x="340" y="440" width="200" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="_edge07_req_cc" dmnElementRef="_ir07_cc_request" sourceElement="_shape07_request" targetElement="_shape07_conditionCheck">
+        <di:waypoint x="440" y="470" />
+        <di:waypoint x="290" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_edge07_req_ac" dmnElementRef="_ir07_ac_request" sourceElement="_shape07_request" targetElement="_shape07_authResultCheck">
+        <di:waypoint x="440" y="470" />
+        <di:waypoint x="610" y="300" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_edge07_cc_ac" dmnElementRef="_ir07_ac_conditionCheck" sourceElement="_shape07_conditionCheck" targetElement="_shape07_authResultCheck">
+        <di:waypoint x="290" y="270" />
+        <di:waypoint x="520" y="270" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_edge07_cc_fr" dmnElementRef="_ir07_fr_conditionCheck" sourceElement="_shape07_conditionCheck" targetElement="_shape07_finalResult">
+        <di:waypoint x="290" y="270" />
+        <di:waypoint x="450" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="_edge07_ac_fr" dmnElementRef="_ir07_fr_authResultCheck" sourceElement="_shape07_authResultCheck" targetElement="_shape07_finalResult">
+        <di:waypoint x="610" y="240" />
+        <di:waypoint x="550" y="150" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

@@ -1,0 +1,146 @@
+[
+  {
+    "case": "7-1",
+    "scenario": "그룹사 회선 보유 + 권한 있음 → 정지 가능",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000020,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 2
+      },
+      "authResult": "GRANTED"
+    }
+  },
+  {
+    "case": "7-2",
+    "scenario": "그룹사 회선 보유 + 권한 없음 → 정지 불가",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_NONE",
+      "svcMgmtNum": 1000000020,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 2
+      },
+      "authResult": "DENIED"
+    }
+  },
+  {
+    "case": "7-3",
+    "scenario": "그룹사 회선 0건 → 권한 체크 생략",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000021,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 0
+      },
+      "authResult": "GRANTED"
+    }
+  },
+  {
+    "case": "7-4",
+    "scenario": "경계값 — 그룹사 회선 1건 → 권한 체크 대상",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000022,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 1
+      },
+      "authResult": "GRANTED"
+    }
+  },
+  {
+    "case": "7-5",
+    "scenario": "변경코드 미해당(F2) → 권한 체크 생략",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000020,
+      "input": {
+        "svc_st_chg_cd": "F2",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 2
+      },
+      "authResult": "GRANTED"
+    }
+  },
+  {
+    "case": "7-6",
+    "scenario": "사유코드 미해당(99) → 권한 체크 생략",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000020,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "99"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 2
+      },
+      "authResult": "GRANTED"
+    }
+  },
+  {
+    "case": "7-7",
+    "scenario": "조회 API 무응답(null) → 안전하게 권한 체크 생략",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000023,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": null
+      },
+      "authResult": "GRANTED"
+    }
+  },
+  {
+    "case": "7-8",
+    "scenario": "권한 API 장애 → 오류 반환",
+    "request": {
+      "authId": "ORDOP1026",
+      "checkType": "SINGLE",
+      "userId": "USER_FULL",
+      "svcMgmtNum": 1000000020,
+      "input": {
+        "svc_st_chg_cd": "F1",
+        "svc_chg_rsn_cd": "01"
+      },
+      "extInquiryResult": {
+        "grp_co_svc_cnt": 2
+      },
+      "authResult": "ERROR"
+    }
+  }
+]

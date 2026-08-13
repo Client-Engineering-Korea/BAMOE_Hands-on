@@ -1,0 +1,24 @@
+{
+  "request" : {
+    "checkType" : "SINGLE",
+    "input" : {
+      "svc_chg_rsn_cd" : "01",
+      "svc_st_chg_cd" : "F1"
+    },
+    "svcMgmtNum" : 1000000021,
+    "extInquiryResult" : {
+      "grp_co_svc_cnt" : 0
+    },
+    "authResult" : "GRANTED",
+    "userId" : "USER_FULL",
+    "authId" : "ORDOP1026"
+  },
+  "authResultCheck" : "OK",
+  "conditionCheck" : "STOP",
+  "finalResult" : {
+    "businessResult" : "OK",
+    "authResult" : "SKIP",
+    "errorMessage" : null,
+    "errorCode" : null
+  }
+}
